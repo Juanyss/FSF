@@ -23,7 +23,7 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public List<Product> findAll() {
-        return (List<Product>) this.productRepository.findAll();
+        return this.productRepository.findAll();
     }
 
     @Override
@@ -35,14 +35,8 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public boolean newProduct(Product product){
-        Product p = new Product();
-        p.setName(product.getName());
-        p.setType(product.getType());
-        p.setDetail(product.getDetail());
-        p.setStock(product.getStock());
-        p.setCost(product.getCost());
-        p.setDistributor(this.distributorRepository.findOne(product.getAux()));
-        p.setPrice(product.getPrice());
+        Product p = new Product(product.getName(),product.getType(),product.getDetail(),product.getStock(),product.getCost(),
+                this.distributorRepository.findOne(product.getAux()),product.getPrice());
         this.productRepository.save(p);
 
         return true;

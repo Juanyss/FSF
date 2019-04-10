@@ -7,27 +7,6 @@
 </head>
 <body>
 
-<div class="example-1 card" id="card2" th:each="i: ${distributor}">
-    <div class="wrapper">
-        <div class="data">
-            <div class="content">
-                <div class="card-content tipo">
-                    <span class="tags"></span>
-                    <span class="tags2">Nombre: </span><span class="text_alquiler" th:text="*{i.name}"></span>
-                    <span class="tags2">Marca: </span><span class="text_alquiler" th:text="*{i.brand}"></span>
-                    <span class="tags2">Telefono: </span><span class="text_alquiler" th:text="*{i.phone}"></span>
-                </div>
-                <div class="card-content tipo">
-                    <span class="tags"></span>
-                    <span class="tags2">Email: </span><span class="text_alquiler" th:text="*{i.email}"></span>
-                    <span class="tags2">Tipo: </span><span class="text_alquiler" th:text="*{i.type}"></span>
-                </div>
-                <div class="border"></div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="container" hidden>
     <form id="contact" action="" method="post">
         <h3>Nuevo Distribuidor</h3>
@@ -52,5 +31,49 @@
         </fieldset>
     </form>
 </div>
+
+<div class="container" hidden>
+    <form id="contact" action="" method="post">
+        <h3>Modificar Distribuidor</h3>
+        <h4></h4>
+        <fieldset>
+            <input placeholder="Apellido y nombre" type="text" tabindex="1" required autofocus>
+        </fieldset>
+        <fieldset>
+        </fieldset>
+        <fieldset>
+            <input placeholder="Telefeno" type="tel" tabindex="3" required>
+        </fieldset>
+        <fieldset>
+            <input placeholder="Email" type="email" tabindex="4" required>
+        </fieldset>
+        <fieldset>
+            <input placeholder="Tipo" type="text" tabindex="5" required>
+        </fieldset>
+        <fieldset>
+            <button name="Crear" type="submit" id="newDistributorBtn">Crear</button>
+            <button name="Cancelar" type="submit" id="cancelDistributorBtn">Cancelar</button>
+        </fieldset>
+    </form>
+</div>
+
+<div>
+    <h1>Lista de Distribuidores</h1>
+    <fieldset id="distributorList" class="field_set" th:each="i: ${distributor}">
+        <div>
+            <div><strong><label>Marca: </label></strong><label type="text" id="nameBrand" th:text="*{i.brand}"></label></div>
+            <div><strong><label>Nombre: </label></strong><label type="text" id="nameDistributor" th:text="*{i.name}"></label></div>
+            <div><strong><label>Tipo: </label></strong><label type="text" id="typeBrand" th:text="*{i.type}"></label></div>
+            <div><strong><label>Telefono: </label></strong><label type="text" id="phoneBrand" th:text="*{i.phone}"></label></div>
+            <div><strong><label>Email: </label></strong><label type="text" id="emailBrand" th:text="*{i.email}"></label></div>
+        </div>
+        <div>
+            <a th:href="@{'/updateDistributor/' + ${i.idDistributor}}"><button type="submit">Modificar Distribuidor</button></a>
+            <a th:href="@{'/deleteDistributor/' + ${i.idDistributor}}"><button type="submit">Eliminar Distribuidor</button></a>
+        </div>
+    </fieldset>
+</div>
+
+
 </body>
 </html>

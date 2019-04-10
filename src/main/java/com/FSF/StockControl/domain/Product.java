@@ -19,7 +19,7 @@ public class Product {
     private Integer stock;
     private Double cost;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
     @JoinColumn(name = "idDistributor")
     private Distributor distributor;
 
@@ -31,14 +31,14 @@ public class Product {
     public Product() {
     }
 
-    public Product(String name, String type, String detail, Integer stock, Double cost, Long aux,
+    public Product(String name, String type, String detail, Integer stock, Double cost, Distributor distributor,
                    Double price) {
         this.name = name;
         this.type = type;
         this.detail = detail;
         this.stock = stock;
         this.cost = cost;
-        this.aux = aux;
+        this.distributor = distributor;
         this.price = price;
     }
 
@@ -90,7 +90,7 @@ public class Product {
         this.cost = cost;
     }
 
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="idDistributor")
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="brand")
     @JsonIdentityReference(alwaysAsId = true)
     public Distributor getDistributor() {
         return distributor;
