@@ -1,16 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" type="text/css" href="/CSS/product.css"/>
-    <script	src="/JS/jquery-3.3.1.min.js"></script>
-    <title>Ferreteria Sagrada familia</title>
-</head>
-<body>
-<div id="productDiv">
+<html>
 
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no" />
+    <title>Home</title>
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <link rel="stylesheet" href="CSS/product.css" />
+    <script	src="/JS/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+
+<br>
+<br>
+<br>
+
+<div class="thumbnails">
+
+    <div class="box">
+        <a href="#" class="image fit"><img src="IMG/search.png" alt="" /></a>
+        <div class="inner">
+            <a href="#" class="button style2 fit" data-poptrox="youtube,800x400">Buscar</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="#" class="image fit" ><img src="IMG/new.png" alt="" /></a>
+        <div class="inner">
+            <button class="button fit" data-poptrox="youtube,800x400" id="addProduct">Crear</button>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="#" class="image fit"><img src="IMG/delete.png" alt="" /></a>
+        <div class="inner">
+            <a href="#" class="button style2 fit" data-poptrox="youtube,800x400">Eliminar</a>
+        </div>
+    </div>
+
+    <div class="box">
+        <a href="#" class="image fit"><img src="IMG/update.png" alt="" /></a>
+        <div class="inner">
+            <a href="#" class="button style3 fit" data-poptrox="youtube,800x400">Modificar</a>
+        </div>
+    </div>
 </div>
 
-<script src="/JS/productJS.js"></script>
+
+
+<div class="limiter">
+    <div class="container-table100">
+        <div class="wrap-table100">
+            <div class="table100 ver1 m-b-110">
+                <div class="table100-head">
+                    <table>
+                        <thead>
+                        <tr class="row100 head">
+                            <th class="column1">Nombre</th>
+                            <th class="column2">Marca</th>
+                            <th class="column3">Detalle</th>
+                            <th class="column4">Stock</th>
+                            <th class="column5">Costo</th>
+                            <th class="column5">Precio</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                <div class="table100-body js-pscroll" id="productList">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="productForm">
+
+    <h3>Nuevo Producto</h3>
+
+    <form action="#">
+        <input placeholder="Nombre" type="text" required />
+        <select id="distributorDropDown" required />
+        <input placeholder="Detalles" type="text" required />
+        <input placeholder="Stock" type="text" required />
+        <input placeholder="Costo" type="text" required />
+        <input placeholder="Precio" type="text" required />
+        <button class="formBtn" type="submit">Crear</button>
+        <button class="formBtn" type="submit">Cancelar</button>
+    </form>
+</div>y
+
+
+<script src="JS/productJS.js"></script>
 </body>
+
+
+
 </html>
