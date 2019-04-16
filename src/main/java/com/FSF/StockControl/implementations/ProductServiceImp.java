@@ -35,8 +35,9 @@ public class ProductServiceImp implements ProductService {
 
     @Override
     public boolean newProduct(Product product){
-        Product p = new Product(product.getName(),product.getType(),product.getDetail(),product.getStock(),product.getCost(),
-                this.distributorRepository.findOne(product.getAux()),product.getPrice());
+        Product p = new Product(product.getName(),product.getType(),product.getDetail(),product.getStock().intValue(),
+                product.getCost().doubleValue(),this.distributorRepository.findOne(product.getAux().longValue()),
+                product.getPrice().doubleValue());
         this.productRepository.save(p);
 
         return true;

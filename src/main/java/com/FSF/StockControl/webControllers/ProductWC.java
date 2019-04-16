@@ -9,12 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ProductWC {
 
-    @Autowired
-    private ProductServiceImp productServiceImp;
 
     @GetMapping(value = "/products")
-    public String listProducts(Model model) {
-        model.addAttribute("product", this.productServiceImp.findAll());
+    public String listProducts() {
         return "products";
     }
 }

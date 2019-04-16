@@ -26,13 +26,15 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public void NewProduct(@RequestBody Product product) {
+    public List<Product> NewProduct(@RequestBody Product product) {
         this.productServiceImp.newProduct(product);
+        return this.productServiceImp.findAll();
     }
 
     @DeleteMapping({"/{id}"})
-    public void deleteProduct(@PathVariable("id") Long id) {
+    public List<Product> deleteProduct(@PathVariable("id") Long id) {
         this.productServiceImp.delete(id);
+        return this.productServiceImp.findAll();
     }
 
     @PutMapping("/{id}")

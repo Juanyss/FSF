@@ -19,7 +19,7 @@ public class Product {
     private Integer stock;
     private Double cost;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "idDistributor")
     private Distributor distributor;
 
