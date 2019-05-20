@@ -6,11 +6,36 @@
             success: function (result) {
                 $("#productList").empty();
                 for (x = 0; x < result.length; x++) {
+                    var distributorInfo = distributorFindInfo(result[x].distributor);
+                    if (distributorInfo == null){
+                    $("#productList").append(
+                    "<table>" +
+                    "<tbody>" +
+                    "<td class='column1' id='productName'>"+ result[x].name +"</td>" +
+                    "<td class='column2' id='productBrand'>Sin marca</td>" +
+                    "<td class='column3' id='productDetail'>"+ result[x].detail +"</td>" +
+                    "<td class='column4' id='productStock'>"+ result[x].stock.toString() +"</td>" +
+                    "<td class='column5' id='productCost'>$"+ result[x].cost.toString() +"</td>" +
+                    "<td class='column5' id='productPrice'>$"+ result[x].price.toString() +"</td>" +
+                    "<td class='column6'>" +
+                    "<button onclick=deleteProduct("+ result[x].idProduct +")>" +
+                    "<img src='IMG/delete.png'/>" +
+                    "</button>" +
+                    "</td>" +
+                    "<td class='column6'>" +
+                    "<button onclick=updateProductForm("+ result[x].idProduct +")>" +
+                    "<img src='IMG/update.png'/>" +
+                    "</button>" +
+                    "</td>" +
+                    "</tbody>" +
+                    "</table>" +
+                    "</div>")
+                    }else{
                     $("#productList").append(
                         "<table>" +
                             "<tbody>" +
                                 "<td class='column1' id='productName'>"+ result[x].name +"</td>" +
-                                "<td class='column2' id='productBrand'>"+ result[x].distributor +"</td>" +
+                                "<td class='column2' id='productBrand'>" + distributorInfo.brand + "</td>" +
                                 "<td class='column3' id='productDetail'>"+ result[x].detail +"</td>" +
                                 "<td class='column4' id='productStock'>"+ result[x].stock.toString() +"</td>" +
                                 "<td class='column5' id='productCost'>$"+ result[x].cost.toString() +"</td>" +
@@ -29,18 +54,19 @@
                         "</table>" +
                         "</div>"
                     )
-                }
-                ;
+                };
             }
+        }
         });
 
-function distributors() {
+function distributors(id) {
     $.ajax({
         url: "/api/distributors",
         contentType: "application/json; charset=utf-8",
         type: "GET",
         success: function (result) {
             $("#distributorDropDown").empty();
+            distributorFind(id);
             for (x = 0; x < result.length; x++) {
                 $("#distributorDropDown").append(
                     "<option  value='" + result[x].idDistributor + "'>" + result[x].brand.toString() + "</option>"
@@ -51,11 +77,44 @@ function distributors() {
     });
 }
 
+function distributorFind(id) {
+            $.ajax({
+                url: "/api/distributors/" + id,
+                contentType: "application/json; charset=utf-8",
+                type: "GET",
+                success: function (data) {
+                    $("#distributorDropDown").append(
+                        "<option  value='" + data.idDistributor + "' selected>" + data.brand.toString() + "</option>"
+                    )
+                }
+            });
+        }
+
+        function distributorFindInfo(id) {
+            var obj=
+            $.ajax({
+                async:false,
+                url: "/api/distributors/" + id,
+                dataType : 'json'}).done(
+                    function(data){
+                        data;
+                    }
+            ).responseJSON;
+            return obj;
+        }
+
 
 
 //Add new product
 function addProduct(){
-
+    if(($("#newProductName").val() == "") || ($("#newProductType").val() == "") ||
+                ($("#newProductStock").val() == "") || ($("#newProductCost").val() == "")
+                || ($("#newProductPrice").val() == "")){
+                window.alert("Faltan completar campos")
+    }else{
+    if($("#newProductDetail").val() == ""){
+    $("#newProductDetail").val("Sin detalles");
+    }
     $.ajax({
         url: "/api/products",
         data: JSON.stringify({"name": $("#newProductName").val(),
@@ -70,40 +129,74 @@ function addProduct(){
         success: function (result) {
             $("#productForm").fadeOut();
             $("#productList").empty();
-            for (x = 0; x < result.length; x++) {
-                $("#productList").append(
-                    "<table>" +
-                    "<tbody>" +
-                    "<td class='column1' >" + result[x].name + "</td>" +
-                    "<td class='column2' >" + result[x].distributor + "</td>" +
-                    "<td class='column3' >" + result[x].detail + "</td>" +
-                    "<td class='column4' >" + result[x].stock.toString() + "</td>" +
-                    "<td class='column5' >$" + result[x].cost.toString() + "</td>" +
-                    "<td class='column5' >$" + result[x].price.toString() + "</td>" +
-                    "<td class='column6'>" +
-                    "<button onclick=deleteProduct("+ result[x].idProduct +")>" +
-                    "<img src='IMG/delete.png'/>" +
-                    "</button>" +
-                    "</td>" +
-                    "<td class='column6'>" +
-                    "<button onclick=updateProductForm("+ result[x].idProduct +")>" +
-                    "<img src='IMG/update.png'/>" +
-                    "</button>" +
-                    "</td>" +
-                    "</tbody>" +
-                    "</table>" +
-                    "</div>"
-                )
-            }
+                            for (x = 0; x < result.length; x++) {
+                                var distributorInfo = distributorFindInfo(result[x].distributor);
+                                if (distributorInfo == null){
+                                $("#productList").append(
+                                "<table>" +
+                                "<tbody>" +
+                                "<td class='column1' id='productName'>"+ result[x].name +"</td>" +
+                                "<td class='column2' id='productBrand'>Sin marca</td>" +
+                                "<td class='column3' id='productDetail'>"+ result[x].detail +"</td>" +
+                                "<td class='column4' id='productStock'>"+ result[x].stock.toString() +"</td>" +
+                                "<td class='column5' id='productCost'>$"+ result[x].cost.toString() +"</td>" +
+                                "<td class='column5' id='productPrice'>$"+ result[x].price.toString() +"</td>" +
+                                "<td class='column6'>" +
+                                "<button onclick=deleteProduct("+ result[x].idProduct +")>" +
+                                "<img src='IMG/delete.png'/>" +
+                                "</button>" +
+                                "</td>" +
+                                "<td class='column6'>" +
+                                "<button onclick=updateProductForm("+ result[x].idProduct +")>" +
+                                "<img src='IMG/update.png'/>" +
+                                "</button>" +
+                                "</td>" +
+                                "</tbody>" +
+                                "</table>" +
+                                "</div>")
+                                }else{
+                                $("#productList").append(
+                                    "<table>" +
+                                        "<tbody>" +
+                                            "<td class='column1' id='productName'>"+ result[x].name +"</td>" +
+                                            "<td class='column2' id='productBrand'>" + distributorInfo.brand + "</td>" +
+                                            "<td class='column3' id='productDetail'>"+ result[x].detail +"</td>" +
+                                            "<td class='column4' id='productStock'>"+ result[x].stock.toString() +"</td>" +
+                                            "<td class='column5' id='productCost'>$"+ result[x].cost.toString() +"</td>" +
+                                            "<td class='column5' id='productPrice'>$"+ result[x].price.toString() +"</td>" +
+                                            "<td class='column6'>" +
+                                            "<button onclick=deleteProduct("+ result[x].idProduct +")>" +
+                                               "<img src='IMG/delete.png'/>" +
+                                            "</button>" +
+                                            "</td>" +
+                                            "<td class='column6'>" +
+                                            "<button onclick=updateProductForm("+ result[x].idProduct +")>" +
+                                               "<img src='IMG/update.png'/>" +
+                                            "</button>" +
+                                            "</td>" +
+                                        "</tbody>" +
+                                    "</table>" +
+                                    "</div>"
+                                )
+                            };
+                        }
         }
     });
+    }
 }
 
-        function updateProduct1(){
-
+        function updateProduct1(id){
+            if(($("#newProductName").val() == "") || ($("#newProductType").val() == "") ||
+            ($("#newProductStock").val() == "") || ($("#newProductCost").val() == "") || ($("#newProductPrice").val() == "")){
+            window.alert("Faltan completar campos")
+            }else{
+            if($("#newProductDetail").val() == ""){
+                $("#newProductDetail").val("Sin detalles");
+            }
             $.ajax({
-                url: "/api/products" + id,
-                data: JSON.stringify({"name": $("#newProductName").val(),
+                url: "/api/products/" + id,
+                data: JSON.stringify({
+                    "name": $("#newProductName").val(),
                     "type":$("#newProductType").val(),
                     "detail": $("#newProductDetail").val(),
                     "stock":$("#newProductStock").val(),
@@ -115,33 +208,60 @@ function addProduct(){
                 success: function (result) {
                     $("#productForm").fadeOut();
                     $("#productList").empty();
-                    for (x = 0; x < result.length; x++) {
-                        $("#productList").append(
-                            "<table>" +
-                            "<tbody>" +
-                            "<td class='column1' >" + result[x].name + "</td>" +
-                            "<td class='column2' >" + result[x].distributor + "</td>" +
-                            "<td class='column3' >" + result[x].detail + "</td>" +
-                            "<td class='column4' >" + result[x].stock.toString() + "</td>" +
-                            "<td class='column5' >$" + result[x].cost.toString() + "</td>" +
-                            "<td class='column5' >$" + result[x].price.toString() + "</td>" +
-                            "<td class='column6'>" +
-                            "<button onclick=deleteProduct("+ result[x].idProduct +")>" +
-                            "<img src='IMG/delete.png'/>" +
-                            "</button>" +
-                            "</td>" +
-                            "<td class='column6'>" +
-                            "<button onclick=updateProductForm("+ result[x].idProduct +")>" +
-                            "<img src='IMG/update.png'/>" +
-                            "</button>" +
-                            "</td>" +
-                            "</tbody>" +
-                            "</table>" +
-                            "</div>"
-                        )
-                    }
+                                    for (x = 0; x < result.length; x++) {
+                                        var distributorInfo = distributorFindInfo(result[x].distributor);
+                                        if (distributorInfo == null){
+                                        $("#productList").append(
+                                        "<table>" +
+                                        "<tbody>" +
+                                        "<td class='column1' id='productName'>"+ result[x].name +"</td>" +
+                                        "<td class='column2' id='productBrand'>Sin marca</td>" +
+                                        "<td class='column3' id='productDetail'>"+ result[x].detail +"</td>" +
+                                        "<td class='column4' id='productStock'>"+ result[x].stock.toString() +"</td>" +
+                                        "<td class='column5' id='productCost'>$"+ result[x].cost.toString() +"</td>" +
+                                        "<td class='column5' id='productPrice'>$"+ result[x].price.toString() +"</td>" +
+                                        "<td class='column6'>" +
+                                        "<button onclick=deleteProduct("+ result[x].idProduct +")>" +
+                                        "<img src='IMG/delete.png'/>" +
+                                        "</button>" +
+                                        "</td>" +
+                                        "<td class='column6'>" +
+                                        "<button onclick=updateProductForm("+ result[x].idProduct +")>" +
+                                        "<img src='IMG/update.png'/>" +
+                                        "</button>" +
+                                        "</td>" +
+                                        "</tbody>" +
+                                        "</table>" +
+                                        "</div>")
+                                        }else{
+                                        $("#productList").append(
+                                            "<table>" +
+                                                "<tbody>" +
+                                                    "<td class='column1' id='productName'>"+ result[x].name +"</td>" +
+                                                    "<td class='column2' id='productBrand'>" + distributorInfo.brand + "</td>" +
+                                                    "<td class='column3' id='productDetail'>"+ result[x].detail +"</td>" +
+                                                    "<td class='column4' id='productStock'>"+ result[x].stock.toString() +"</td>" +
+                                                    "<td class='column5' id='productCost'>$"+ result[x].cost.toString() +"</td>" +
+                                                    "<td class='column5' id='productPrice'>$"+ result[x].price.toString() +"</td>" +
+                                                    "<td class='column6'>" +
+                                                    "<button onclick=deleteProduct("+ result[x].idProduct +")>" +
+                                                       "<img src='IMG/delete.png'/>" +
+                                                    "</button>" +
+                                                    "</td>" +
+                                                    "<td class='column6'>" +
+                                                    "<button onclick=updateProductForm("+ result[x].idProduct +")>" +
+                                                       "<img src='IMG/update.png'/>" +
+                                                    "</button>" +
+                                                    "</td>" +
+                                                "</tbody>" +
+                                            "</table>" +
+                                            "</div>"
+                                        )
+                                    };
+                                }
                 }
-            });
+            })
+            };
         }
 
         function deleteProduct(id){
@@ -150,32 +270,57 @@ function addProduct(){
                 type: "DELETE",
                 success: function (result) {
                     $("#productList").empty();
-                    for (x = 0; x < result.length; x++) {
-                        $("#productList").append(
-                            "<table>" +
-                            "<tbody>" +
-                            "<td class='column1' id='productName'>"+ result[x].name +"</td>" +
-                            "<td class='column2' id='productBrand'>"+ result[x].distributor +"</td>" +
-                            "<td class='column3' id='productDetail'>"+ result[x].detail +"</td>" +
-                            "<td class='column4' id='productStock'>"+ result[x].stock.toString() +"</td>" +
-                            "<td class='column5' id='productCost'>$"+ result[x].cost.toString() +"</td>" +
-                            "<td class='column5' id='productPrice'>$"+ result[x].price.toString() +"</td>" +
-                            "<td class='column6'>" +
-                            "<button onclick=deleteProduct("+ result[x].idProduct +")>" +
-                            "<img src='IMG/delete.png'/>" +
-                            "</button>" +
-                            "</td>" +
-                            "<td class='column6'>" +
-                            "<button onclick=updateProductForm("+ result[x].idProduct +")>" +
-                            "<img src='IMG/update.png'/>" +
-                            "</button>" +
-                            "</td>" +
-                            "</tbody>" +
-                            "</table>" +
-                            "</div>"
-                        )
-                    }
-                    ;
+                                    for (x = 0; x < result.length; x++) {
+                                        var distributorInfo = distributorFindInfo(result[x].distributor);
+                                        if (distributorInfo == null){
+                                        $("#productList").append(
+                                        "<table>" +
+                                        "<tbody>" +
+                                        "<td class='column1' id='productName'>"+ result[x].name +"</td>" +
+                                        "<td class='column2' id='productBrand'>Sin marca</td>" +
+                                        "<td class='column3' id='productDetail'>"+ result[x].detail +"</td>" +
+                                        "<td class='column4' id='productStock'>"+ result[x].stock.toString() +"</td>" +
+                                        "<td class='column5' id='productCost'>$"+ result[x].cost.toString() +"</td>" +
+                                        "<td class='column5' id='productPrice'>$"+ result[x].price.toString() +"</td>" +
+                                        "<td class='column6'>" +
+                                        "<button onclick=deleteProduct("+ result[x].idProduct +")>" +
+                                        "<img src='IMG/delete.png'/>" +
+                                        "</button>" +
+                                        "</td>" +
+                                        "<td class='column6'>" +
+                                        "<button onclick=updateProductForm("+ result[x].idProduct +")>" +
+                                        "<img src='IMG/update.png'/>" +
+                                        "</button>" +
+                                        "</td>" +
+                                        "</tbody>" +
+                                        "</table>" +
+                                        "</div>")
+                                        }else{
+                                        $("#productList").append(
+                                            "<table>" +
+                                                "<tbody>" +
+                                                    "<td class='column1' id='productName'>"+ result[x].name +"</td>" +
+                                                    "<td class='column2' id='productBrand'>" + distributorInfo.brand + "</td>" +
+                                                    "<td class='column3' id='productDetail'>"+ result[x].detail +"</td>" +
+                                                    "<td class='column4' id='productStock'>"+ result[x].stock.toString() +"</td>" +
+                                                    "<td class='column5' id='productCost'>$"+ result[x].cost.toString() +"</td>" +
+                                                    "<td class='column5' id='productPrice'>$"+ result[x].price.toString() +"</td>" +
+                                                    "<td class='column6'>" +
+                                                    "<button onclick=deleteProduct("+ result[x].idProduct +")>" +
+                                                       "<img src='IMG/delete.png'/>" +
+                                                    "</button>" +
+                                                    "</td>" +
+                                                    "<td class='column6'>" +
+                                                    "<button onclick=updateProductForm("+ result[x].idProduct +")>" +
+                                                       "<img src='IMG/update.png'/>" +
+                                                    "</button>" +
+                                                    "</td>" +
+                                                "</tbody>" +
+                                            "</table>" +
+                                            "</div>"
+                                        )
+                                    };
+                                }
                 }
             });
         }
@@ -198,12 +343,11 @@ $("#addProduct").click(function(){
         "<input placeholder='Nombre' id='newProductName' type='text' required />"+
         "<select id='distributorDropDown' required />"+
         "<input placeholder='Rubro' type='text' id='newProductType' required />"+
-        "<input placeholder='Detalles' type='text' id='newProductDetail' required />"+
+        "<input placeholder='Detalles' type='text' id='newProductDetail' />"+
         "<input placeholder='Stock' type='text' id='newProductStock' required />"+
         "<input placeholder='Costo' type='text' id='newProductCost' required />"+
         "<input placeholder='Precio' type='text' id='newProductPrice' required />"+
-        "<button class='formBtn' type='submit' onclick='addProduct()'>Crear</button>"+
-        "<button class='formBtn' type='submit'>Cancelar</button>"
+        "<button class='formBtn' type='submit' onclick='addProduct()'>Crear</button>"
     );
     $("#productForm").fadeToggle();
 })
@@ -214,22 +358,21 @@ function bringProduct(id){
         url: "/api/products/" + id,
         type: "GET",
         success:function(result){
-            distributors();
             $("#productForm").empty();
+            distributors(result.distributor);
             $("#productForm").append(
                 "<h3>Modificar Producto</h3>" +
                 "<input placeholder='Nombre' id='newProductName' type='text' required value='"+ result.name +"'> </input>"+
-                "<select id='distributorDropDown' required>" +
-                "<option  value='" + result[x].idDistributor + "' selected>" + result[x].brand.toString() + "</option>"+
-                " </select>"+
+                "<select id='distributorDropDown' required/>" +
                 "<input placeholder='Rubro' type='text' id='newProductType' required value='"+result.type+"'></input>"+
-                "<input placeholder='Detalles' type='text' id='newProductDetail' required value='"+result.detail+"'></input>"+
-                "<input placeholder='Stock' type='text' id='newProductStock' required value='"+result.sotck+"'> </input>"+
+                "<input placeholder='Detalles' type='text' id='newProductDetail' value='"+result.detail+"'></input>"+
+                "<input placeholder='Stock' type='text' id='newProductStock' required value='"+result.stock+"'> </input>"+
                 "<input placeholder='Costo' type='text' id='newProductCost' required value='"+result.cost+"'> </input>"+
                 "<input placeholder='Precio' type='text' id='newProductPrice' required value='"+result.price+"'> </input>"+
-                "<button class='formBtn' type='submit' onclick='updateProduct1()'>Crear</button>"+
-                "<button class='formBtn' type='submit'>Cancelar</button>"
+                "<button class='formBtn' type='submit' onclick='updateProduct1("+ result.idProduct +")'>Modificar</button>"
+
             );
+
     }
     })
 }
@@ -244,6 +387,8 @@ $(document).mouseup(function (e) {
         container.fadeOut();
     }
 });
+
+
 
 
 
