@@ -26,21 +26,27 @@ public class DistributorController {
     }
 
     @PostMapping("")
-    public void NewUser(@RequestBody Distributor distributor) {
+    public List<Distributor> NewUser(@RequestBody Distributor distributor) {
         this.distributorServiceImp.newDistributor(distributor);
+        return this.distributorServiceImp.findAll();
     }
 
     @DeleteMapping("/{id}")
-    public void deleteDistributor(@PathVariable("id") Long id) {
+    public List<Distributor> deleteDistributor(@PathVariable("id") Long id) {
         this.distributorServiceImp.delete(id);
+        return this.distributorServiceImp.findAll();
     }
 
     @PutMapping("/{id}")
-    public void updateDistributor(@PathVariable("id") Long id,@RequestBody Distributor distributor ){
+    public List<Distributor> updateDistributor(@PathVariable("id") Long id,@RequestBody Distributor distributor ){
         this.distributorServiceImp.updateDistributor(id,distributor.getName(),distributor.getBrand(),
                 distributor.getType(),distributor.getPhone(),distributor.getEmail());
+        return this.distributorServiceImp.findAll();
     }
 
-
+    @PostMapping("/brandSearch")
+    public List<Distributor> showAllDistributors(@RequestBody Distributor distributor) {
+        return this.distributorServiceImp.brandSearch(distributor.getBrand());
+    }
 
 }

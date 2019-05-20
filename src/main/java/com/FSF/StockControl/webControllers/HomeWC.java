@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeWC {
 
-    @GetMapping(value = "")
-    public String distributorForm() {
+    @GetMapping(value = "/")
+    public String home() {
         return "home";
     }
 }

@@ -14,4 +14,6 @@ public interface DistributorService {
     Distributor findOne(Long id);
 
     void updateDistributor(Long id, String name, String brand, String type, String phone, String email);
+
+    List<Distributor> brandSearch(String brand);
 }

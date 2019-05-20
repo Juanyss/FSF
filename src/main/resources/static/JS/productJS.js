@@ -388,6 +388,81 @@ $(document).mouseup(function (e) {
     }
 });
 
+//Search functions
+
+$("#searchButton").click(function(){
+    $("#searchDiv").show();
+    $("#productSearch").focus();
+})
+
+$("#productSearch").on('keypress', function(e){
+    var code = e.keyCode || e.which;
+    if(code==13){
+    $.ajax({
+                url: "/api/products/productSearch",
+                data: JSON.stringify({"name": $("#productSearch").val()}),
+                contentType: "application/json; charset=utf-8",
+                method: "POST",
+                success: function (result) {
+                $("#distributorList").empty();
+                for (x = 0; x < result.length; x++) {
+                $("#productList").empty();
+                for (x = 0; x < result.length; x++) {
+                    var distributorInfo = distributorFindInfo(result[x].distributor);
+                    if (distributorInfo == null){
+                    $("#productList").append(
+                    "<table>" +
+                    "<tbody>" +
+                    "<td class='column1' id='productName'>"+ result[x].name +"</td>" +
+                    "<td class='column2' id='productBrand'>Sin marca</td>" +
+                    "<td class='column3' id='productDetail'>"+ result[x].detail +"</td>" +
+                    "<td class='column4' id='productStock'>"+ result[x].stock.toString() +"</td>" +
+                    "<td class='column5' id='productCost'>$"+ result[x].cost.toString() +"</td>" +
+                    "<td class='column5' id='productPrice'>$"+ result[x].price.toString() +"</td>" +
+                    "<td class='column6'>" +
+                    "<button onclick=deleteProduct("+ result[x].idProduct +")>" +
+                    "<img src='IMG/delete.png'/>" +
+                    "</button>" +
+                    "</td>" +
+                    "<td class='column6'>" +
+                    "<button onclick=updateProductForm("+ result[x].idProduct +")>" +
+                    "<img src='IMG/update.png'/>" +
+                    "</button>" +
+                    "</td>" +
+                    "</tbody>" +
+                    "</table>" +
+                    "</div>")
+                    }else{
+                        $("#productList").append(
+                        "<table>" +
+                        "<tbody>" +
+                        "<td class='column1' id='productName'>"+ result[x].name +"</td>" +
+                        "<td class='column2' id='productBrand'>" + distributorInfo.brand + "</td>" +
+                        "<td class='column3' id='productDetail'>"+ result[x].detail +"</td>" +
+                        "<td class='column4' id='productStock'>"+ result[x].stock.toString() +"</td>" +
+                        "<td class='column5' id='productCost'>$"+ result[x].cost.toString() +"</td>" +
+                        "<td class='column5' id='productPrice'>$"+ result[x].price.toString() +"</td>" +
+                        "<td class='column6'>" +
+                        "<button onclick=deleteProduct("+ result[x].idProduct +")>" +
+                        "<img src='IMG/delete.png'/>" +
+                        "</button>" +
+                        "</td>" +
+                        "<td class='column6'>" +
+                        "<button onclick=updateProductForm("+ result[x].idProduct +")>" +
+                        "<img src='IMG/update.png'/>" +
+                        "</button>" +
+                        "</td>" +
+                        "</tbody>" +
+                        "</table>" +
+                        "</div>"
+                        )
+                        };
+                    }
+            }
+            }
+    })
+}})
+
 
 
 

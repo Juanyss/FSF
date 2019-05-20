@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface DistributorRepository extends CrudRepository<Distributor, Long> {
@@ -25,4 +26,7 @@ public interface DistributorRepository extends CrudRepository<Distributor, Long>
                                   @Param("type") String type,
                                   @Param("phone") String phone,
                                   @Param("email") String email);
+
+    @Query("select d from Distributor d where d.brand like %:brand%")
+    List<Distributor> brandSearch(@Param("brand") String brand);
 }

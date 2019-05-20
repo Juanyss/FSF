@@ -38,9 +38,14 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public void updateProduct(@PathVariable("id") Long id, @RequestBody Product product){
-        this.productServiceImp.updateProduct(id,product.getName(),product.getDetail(),product.getType(),
-                product.getStock(),product.getCost(),product.getAux(),product.getPrice());
+    public @ResponseBody List<Product> updateProduct(@PathVariable("id") Long id, @RequestBody Product product){
+        this.productServiceImp.updateProduct(id,product);
+        return this.productServiceImp.findAll();
+    }
+
+    @PostMapping("/productSearch")
+    public List<Product> showAllDistributors(@RequestBody Product product) {
+        return this.productServiceImp.productSearch(product.getName());
     }
 
 }

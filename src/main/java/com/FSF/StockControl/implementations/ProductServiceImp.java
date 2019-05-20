@@ -1,6 +1,5 @@
 package com.FSF.StockControl.implementations;
 
-import com.FSF.StockControl.domain.Distributor;
 import com.FSF.StockControl.domain.Product;
 import com.FSF.StockControl.interfaces.ProductService;
 import com.FSF.StockControl.repositories.DistributorRepository;
@@ -50,9 +49,25 @@ public class ProductServiceImp implements ProductService {
 
 
     @Override
-    public void updateProduct(Long id, String name, String detail, String type, Integer stock, Double cost,
-                              Long aux, Double price) {
-        Distributor distributor = this.distributorRepository.findOne(aux);
-        this.productRepository.updateProduct(id,name,detail,type,stock,cost,distributor,price);
+    public void updateProduct(Long id,Product product) {
+        Product p = this.productRepository.findOne(id);
+        p.setName(product.getName());
+        p.setDetail(product.getDetail());
+        p.setType(product.getType());
+        p.setStock(product.getStock());
+        p.setCost(product.getCost());
+        p.setDistributor(this.distributorRepository.findOne(product.getAux()));
+        p.setPrice(product.getPrice());
+        this.productRepository.save(p);
+
+    }
+
+    @Override
+    public List<Product> productSearch(String name){
+        if(this.productRepository.productSearch(name).isEmpty()){
+            return this.productRepository.findAll();
+        }else{
+            return this.productRepository.productSearch(name);
+        }
     }
 }

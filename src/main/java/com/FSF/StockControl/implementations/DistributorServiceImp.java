@@ -49,4 +49,13 @@ public class DistributorServiceImp implements DistributorService {
     public void updateDistributor(Long id, String name, String brand, String type, String phone, String email){
         this.distributorRepository.updateDistributor(id, name, brand, type, phone, email);
     }
+
+    @Override
+    public List<Distributor> brandSearch(String brand){
+        if(this.distributorRepository.brandSearch(brand).isEmpty()){
+            return (List<Distributor>) this.distributorRepository.findAll();
+        }else{
+            return this.distributorRepository.brandSearch(brand);
+        }
+    }
 }

@@ -1,13 +1,12 @@
 package com.FSF.StockControl.domain;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "Distributor")
-public class Distributor implements Serializable {
+public class Distributor  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idDistributor;

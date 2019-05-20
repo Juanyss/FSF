@@ -11,7 +11,7 @@ public class DistributorWC {
     @Autowired
     private DistributorServiceImp distributorServiceImp;
 
-    @GetMapping(value = "/distribuidores")
+    @GetMapping(value = "/distributors")
     public String distributorForm(Model model) {
         model.addAttribute("distributor", this.distributorServiceImp.findAll());
         return "distributor";

@@ -10,26 +10,37 @@
 </head>
 <body>
 
-<br>
+<div id="cssmenu">
+<ul>
+    <li><a href="/"><span>Inicio</span></a></li>
+    <li><a href="/products"><span>Productos</span></a></li>
+    <li class="active"><a href="#"><span>Distribuidores</span></a></li>
+    <li class="last"><a href="#"><span>Contact</span></a></li>
+</ul>
+</div>
+
 <br>
 <br>
 
 <div class="thumbnails">
 
     <div class="box">
-        <a href="#" class="image fit"><img src="IMG/search.png" /></a>
+        <div class="image fit"><img src="IMG/search.png" /></div>
         <div class="inner">
-            <a href="#" class="button style2 fit" data-poptrox="youtube,800x400">Buscar</a>
+            <button class="button style2 fit" id="searchButton">Buscar</button>
         </div>
     </div>
 
     <div class="box">
-        <a href="#" class="image fit" ><img src="IMG/new.png" alt="" /></a>
+        <div class="image fit" ><img src="IMG/new.png" alt="" /></div>
         <div class="inner">
-            <button class="button fit" data-poptrox="youtube,800x400" id="addDistributor">Crear</button>
+            <button class="button fit" id="addDistributor">Crear</button>
         </div>
     </div>
+</div>
 
+<div id="searchDiv" style="display: none;">
+    <input class="wrap-table100" placeholder="Barra de busqueda por marca" id='distributorSearch'/>
 </div>
 
 <div class="limiter">

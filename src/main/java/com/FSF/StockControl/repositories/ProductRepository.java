@@ -10,6 +10,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Collection;
+import java.util.List;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
@@ -30,4 +32,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                               @Param("cost") Double cost,
                               @Param("distributor") Distributor distributor,
                               @Param("price") Double price);
+
+    @Query("select p from Product p where p.name like %:name%")
+    List<Product> productSearch(@Param("name") String name);
 }

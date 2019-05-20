@@ -11,4 +11,7 @@ public class StockControlApplication {
 		SpringApplication.run(StockControlApplication.class, args);
 	}
 
+
 }
+
+

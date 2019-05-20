@@ -14,6 +14,8 @@ public interface ProductService {
 
     Product findOne(Long id);
 
-    void updateProduct(Long id, String name, String detail, String type, Integer stock, Double cost,
-                       Long aux, Double price);
+    void updateProduct(Long idProduct,Product product);
+
+    List<Product> productSearch(String brand);
+
 }

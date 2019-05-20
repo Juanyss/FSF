@@ -21,6 +21,7 @@ public class Product {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade=CascadeType.PERSIST)
     @JoinColumn(name = "idDistributor")
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="idDistributor")
     private Distributor distributor;
 
     private Long aux;
@@ -90,7 +91,7 @@ public class Product {
         this.cost = cost;
     }
 
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="brand")
+
     @JsonIdentityReference(alwaysAsId = true)
     public Distributor getDistributor() {
         return distributor;
