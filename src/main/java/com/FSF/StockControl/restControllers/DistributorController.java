@@ -2,8 +2,10 @@ package com.FSF.StockControl.restControllers;
 
 import com.FSF.StockControl.domain.Distributor;
 import com.FSF.StockControl.implementations.DistributorServiceImp;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 @RestController
@@ -25,19 +27,22 @@ public class DistributorController {
         return this.distributorServiceImp.findOne(id);
     }
 
-    @PostMapping("")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PostMapping("/secured")
     public List<Distributor> NewUser(@RequestBody Distributor distributor) {
         this.distributorServiceImp.newDistributor(distributor);
         return this.distributorServiceImp.findAll();
     }
 
-    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @DeleteMapping("/secured/{id}")
     public List<Distributor> deleteDistributor(@PathVariable("id") Long id) {
         this.distributorServiceImp.delete(id);
         return this.distributorServiceImp.findAll();
     }
 
-    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @PutMapping("/secured/{id}")
     public List<Distributor> updateDistributor(@PathVariable("id") Long id,@RequestBody Distributor distributor ){
         this.distributorServiceImp.updateDistributor(id,distributor.getName(),distributor.getBrand(),
                 distributor.getType(),distributor.getPhone(),distributor.getEmail());
@@ -48,5 +53,7 @@ public class DistributorController {
     public List<Distributor> showAllDistributors(@RequestBody Distributor distributor) {
         return this.distributorServiceImp.brandSearch(distributor.getBrand());
     }
+
+
 
 }

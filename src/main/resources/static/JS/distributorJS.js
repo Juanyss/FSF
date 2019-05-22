@@ -31,51 +31,70 @@ $.ajax({
         });
 
 $("#addDistributor").click(function(){
-    $("#distributorForm").empty();
-    $("#distributorForm").append(
-        "<h3>Nuevo Distribuidor</h3>" +
-        "<input placeholder='Nombre' id='newDistributorName' type='text' required />"+
-        "<input placeholder='Marca' type='text' id='newDistributorBrand' required />"+
-        "<input placeholder='Telefono' type='text' id='newDistributorPhone'  />"+
-        "<input placeholder='Email' type='text' id='newDistributorEmail'  />"+
-        "<input placeholder='Clasificacion' type='text' id='newDistributorType' required />"+
-        "<button class='formBtn' type='submit' onclick='addDistributor()'>Crear</button>"
-    );
-    $("#distributorForm").fadeToggle();
+    $.ajax({
+        url: "/api/users/logIn",
+        contentType: "application/json; charset=utf-8",
+        type: "GET",
+        success: function (result) {
+            if(result == 0){
+                window.location.replace("/login");
+            }else{
+                $("#distributorForm").empty();
+                $("#distributorForm").append(
+                "<h3>Nuevo Distribuidor</h3>" +
+                "<input placeholder='Nombre' id='newDistributorName' type='text' required />"+
+                "<input placeholder='Marca' type='text' id='newDistributorBrand' required />"+
+                "<input placeholder='Telefono' type='text' id='newDistributorPhone'  />"+
+                "<input placeholder='Email' type='text' id='newDistributorEmail'  />"+
+                "<input placeholder='Clasificacion' type='text' id='newDistributorType' required />"+
+                "<button class='formBtn' type='submit' onclick='addDistributor()'>Crear</button>"
+                );
+                $("#distributorForm").fadeToggle();
+                }
+            }
+    });
 })
 
 function deleteDistributor(id){
             $.ajax({
-                url: "/api/distributors/" + id,
-                type: "DELETE",
-                success: function (result) {
-                    $("#distributorList").empty();
-                    for (x = 0; x < result.length; x++) {
-                        $("#distributorList").append(
-                        "<table>" +
-                        "<tbody>" +
-                        "<td class='column1' id='distributorName'>"+ result[x].name +"</td>" +
-                        "<td class='column2' id='distributorBrand'>" + result[x].brand + "</td>" +
-                        "<td class='column3' id='distributorPhone'>"+ result[x].phone +"</td>" +
-                        "<td class='column4' id='distributorEmail'>"+ result[x].email +"</td>" +
-                        "<td class='column5' id='distributorType'>"+ result[x].type +"</td>" +
-                        "<td class='column6'>" +
-                        "<button onclick=deleteDistributor("+ result[x].idDistributor +")>" +
-                        "<img src='IMG/delete.png'/>" +
-                        "</button>" +
-                        "<div class='divider' />" +
-                        "<button onclick=updateDistributorForm("+ result[x].idDistributor +")>" +
-                        "<img src='IMG/update.png'/>" +
-                        "</button>" +
-                        "</td>" +
-                        "</tbody>" +
-                        "</table>" +
-                        "</div>"
-                        )
-                        };
-                }
-            });
-        }
+                    url: "/api/users/logIn",
+                    contentType: "application/json; charset=utf-8",
+                    type: "GET",
+                    success: function (result) {
+                        if(result == 0){
+                            window.location.replace("/login");
+                        }else{
+                            $.ajax({
+                            url: "/api/distributors/secured/" + id,
+                            type: "DELETE",
+                            success: function (result) {
+                                $("#distributorList").empty();
+                                for (x = 0; x < result.length; x++) {
+                                $("#distributorList").append(
+                                "<table>" +
+                                "<tbody>" +
+                                "<td class='column1' id='distributorName'>"+ result[x].name +"</td>" +
+                                "<td class='column2' id='distributorBrand'>" + result[x].brand + "</td>" +
+                                "<td class='column3' id='distributorPhone'>"+ result[x].phone +"</td>" +
+                                "<td class='column4' id='distributorEmail'>"+ result[x].email +"</td>" +
+                                "<td class='column5' id='distributorType'>"+ result[x].type +"</td>" +
+                                "<td class='column6'>" +
+                                "<button onclick=deleteDistributor("+ result[x].idDistributor +")>" +
+                                "<img src='IMG/delete.png'/>" +
+                                "</button>" +
+                                "<div class='divider' />" +
+                                "<button onclick=updateDistributorForm("+ result[x].idDistributor +")>" +
+                                "<img src='IMG/update.png'/>" +
+                                "</button>" +
+                                "</td>" +
+                                "</tbody>" +
+                                "</table>" +
+                                "</div>")
+                            };
+                        }
+                    });
+            }
+            }})}
 
 
 
@@ -91,7 +110,7 @@ function addDistributor(){
            $("#newDistributorEmail").val("Sin email");
     }
     $.ajax({
-        url: "/api/distributors",
+        url: "/api/distributors/secured",
         data: JSON.stringify({"name": $("#newDistributorName").val(),
             "brand":$("#newDistributorBrand").val(),
             "phone": $("#newDistributorPhone").val(),
@@ -129,9 +148,19 @@ function addDistributor(){
 }
 
 function updateDistributorForm(id){
-    bringDistributor(id);
-    $("#distributorForm").fadeToggle();
-
+    $.ajax({
+            url: "/api/users/logIn",
+            contentType: "application/json; charset=utf-8",
+            type: "GET",
+            success: function (result) {
+                if(result == 0){
+                    window.location.replace("/login");
+                }else{
+                    bringDistributor(id);
+                    $("#distributorForm").fadeToggle();
+                }
+            }
+    })
 }
 
 function bringDistributor(id){
@@ -166,7 +195,7 @@ function updateDistributor(id){
        $("#newDistributorEmail").val("Sin email");
     }
     $.ajax({
-        url: "/api/distributors/" + id ,
+        url: "/api/distributors/secured/" + id ,
         data: JSON.stringify({"name": $("#newDistributorName").val(),
             "brand":$("#newDistributorBrand").val(),
             "phone": $("#newDistributorPhone").val(),
@@ -257,4 +286,6 @@ $("#distributorSearch").on('keypress', function(e){
             })
     }
 })
+
+
 
