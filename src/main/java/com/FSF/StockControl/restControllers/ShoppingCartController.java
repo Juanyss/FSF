@@ -2,11 +2,13 @@ package com.FSF.StockControl.restControllers;
 
 import com.FSF.StockControl.domain.Item;
 import com.FSF.StockControl.implementations.ShoppingCartServiceImp;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@PreAuthorize("hasAnyRole('ADMIN')")
 @RequestMapping("/api/shoppingcart")
 public class ShoppingCartController {
     private ShoppingCartServiceImp shoppingCartServiceImp;
@@ -15,30 +17,36 @@ public class ShoppingCartController {
         this.shoppingCartServiceImp = shoppingCartServiceImp;
     }
 
-    @GetMapping("/{shoppingCartId}")
-    public List<Item> showAllItems(@PathVariable("shoppingCartId") Long shoppingCartId) {
-        return this.shoppingCartServiceImp.findAll(shoppingCartId);
+    @GetMapping("/{client}")
+    public List<Item> showAllItems(@PathVariable("client") String client) {
+        return this.shoppingCartServiceImp.findAll(client);
     }
 
 
-    @PostMapping("/{shoppingCartId}/{productId}")
-    public void addItem(@RequestBody Item item, @PathVariable("shoppingCartId") Long shoppingCartId,
+    @PostMapping("/{client}/{productId}")
+    public List<Item> addItem(@RequestBody Item item, @PathVariable("client") String client,
                         @PathVariable("productId") Long productId) {
-        this.shoppingCartServiceImp.addProduct(shoppingCartId,productId,item.getQuantity());
+        return this.shoppingCartServiceImp.addProduct(client,productId,item.getQuantity());
     }
 
-    @DeleteMapping({"/{shoppingCartId}/{productId}"})
-    public void deleteItem(@PathVariable("shoppingCartId") Long shoppingCartId,@PathVariable("productId") Long productId) {
-        this.shoppingCartServiceImp.deleteItem(shoppingCartId,productId);
+    @DeleteMapping({"/{client}/{productId}"})
+    public List<Item> deleteItem(@PathVariable("client") String client,@PathVariable("productId") Long productId) {
+        return this.shoppingCartServiceImp.deleteItem(client,productId);
     }
 
-    @DeleteMapping({"/{shoppingCartId}"})
-    public void clearShoppingCart(@PathVariable("shoppingCartId") Long shoppingCartId) {
-        this.shoppingCartServiceImp.clearShoppingCart(shoppingCartId);
+    @DeleteMapping({"/{client}"})
+    public void clearShoppingCart(@PathVariable("client") String client) {
+        this.shoppingCartServiceImp.clearShoppingCart(client);
     }
 
-    @GetMapping("total/{shoppingCartId}")
-    public Double totalAmount(@PathVariable("shoppingCartId") Long shoppingCartId) {
-        return this.shoppingCartServiceImp.totalAmount(shoppingCartId);
+    @PutMapping({"/{client}/{productId}"})
+    public List<Item> updateItemQuantity(@RequestBody Item item,@PathVariable("client") String client,
+                                  @PathVariable("productId") Long productId) {
+        return this.shoppingCartServiceImp.updateQuantity(client,productId,item.getQuantity());
+    }
+
+    @GetMapping("total/{client}")
+    public Double totalAmount(@PathVariable("client") String client) {
+        return this.shoppingCartServiceImp.totalAmount(client);
     }
 }

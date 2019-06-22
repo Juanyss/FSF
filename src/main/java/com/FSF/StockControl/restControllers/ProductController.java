@@ -2,6 +2,7 @@ package com.FSF.StockControl.restControllers;
 
 import com.FSF.StockControl.domain.Product;
 import com.FSF.StockControl.implementations.ProductServiceImp;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,18 +26,21 @@ public class ProductController {
         return this.productServiceImp.findOne(id);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping("")
     public List<Product> NewProduct(@RequestBody Product product) {
         this.productServiceImp.newProduct(product);
         return this.productServiceImp.findAll();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @DeleteMapping({"/{id}"})
     public List<Product> deleteProduct(@PathVariable("id") Long id) {
         this.productServiceImp.delete(id);
         return this.productServiceImp.findAll();
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PutMapping("/{id}")
     public @ResponseBody List<Product> updateProduct(@PathVariable("id") Long id, @RequestBody Product product){
         this.productServiceImp.updateProduct(id,product);

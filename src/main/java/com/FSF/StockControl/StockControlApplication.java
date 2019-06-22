@@ -21,7 +21,7 @@ public class StockControlApplication {
 			// create a mysql database connection
 			String myUrl = "jdbc:mysql://localhost:3306/FSF_db?useTimezone=true&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true";
 
-			Connection conn = DriverManager.getConnection(myUrl, "root", "440036Cu");
+			Connection conn = DriverManager.getConnection(myUrl, "Juany", "440036Cu");
 
 			// create a sql date object so we can use it in our INSERT statement
 			Calendar calendar = Calendar.getInstance();
@@ -45,9 +45,9 @@ public class StockControlApplication {
 			PreparedStatement preparedStmtUser = conn.prepareStatement(user);
 			preparedStmtUser.setInt (1, 1);
 			preparedStmtUser.setInt (2, 1);
-			preparedStmtUser.setString (3, "Bruzzo");
-			preparedStmtUser.setString (4, "Hector");
-			preparedStmtUser.setString (5, "fsf");
+			preparedStmtUser.setString (3, "");
+			preparedStmtUser.setString (4, "admin");
+			preparedStmtUser.setString (5, "admin");
 
 			PreparedStatement preparedStmtUserRole = conn.prepareStatement(user_role);
 			preparedStmtUserRole.setInt (1, 1);

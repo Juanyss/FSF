@@ -8,7 +8,7 @@ import java.util.List;
 @Table(name = "ShoppingCart")
 public class ShoppingCart {
     @Id
-    private Long idShoppingCart;
+    private String client;
 
     @OneToMany(targetEntity=Item.class, cascade = CascadeType.ALL)
     private List<Item> itemList;
@@ -16,18 +16,17 @@ public class ShoppingCart {
     public ShoppingCart() {
     }
 
-    public ShoppingCart(Long idShoppingCart) {
-        this.idShoppingCart = idShoppingCart;
+    public ShoppingCart(String client) {
+        this.client = client;
         this.itemList = new ArrayList<>();
     }
 
-
-    public Long getIdShoppingCart() {
-        return idShoppingCart;
+    public String getClient() {
+        return client;
     }
 
-    public void setIdShoppingCart(Long idShoppingCart) {
-        this.idShoppingCart = idShoppingCart;
+    public void setClient(String client) {
+        this.client = client;
     }
 
     public List<Item> getItemList() {

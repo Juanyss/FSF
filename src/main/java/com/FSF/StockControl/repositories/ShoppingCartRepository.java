@@ -16,12 +16,12 @@ import java.util.List;
 @Repository
 public interface ShoppingCartRepository extends CrudRepository<ShoppingCart, Long> {
 
-    @Query("select sc.itemList from ShoppingCart sc where sc.idShoppingCart = :idShoppingCart")
-    List<Item> showAllItems(Long idShoppingCart);
+    @Query("select sc.itemList from ShoppingCart sc  where sc.client = :client")
+    List<Item> showAllItems(String client);
 
 
-    @Query("select sc from ShoppingCart sc where sc.idShoppingCart = :id")
-    ShoppingCart findOne(@Param("id") Long id);
+    @Query("select sc from ShoppingCart sc where sc.client = :client")
+    ShoppingCart findOne(@Param("client") String client);
 
     ShoppingCart save(ShoppingCart shoppingCart);
 

@@ -1,6 +1,8 @@
 package com.FSF.StockControl.implementations;
 
 import com.FSF.StockControl.domain.Item;
+import com.FSF.StockControl.domain.Product;
+import com.FSF.StockControl.domain.ShoppingCart;
 import com.FSF.StockControl.interfaces.ItemService;
 import com.FSF.StockControl.repositories.ProductRepository;
 import com.FSF.StockControl.repositories.ItemRepository;
@@ -21,10 +23,15 @@ public class ItemImp implements ItemService {
     public ItemImp() {
     }
 
-    @Autowired
+
     @Override
-    public List<Item> findAll() {
-        return (List<Item>) this.itemRepository.findAll();
+    public List<Item> showAllItemsPerClient(ShoppingCart client) {
+        return this.itemRepository.showAllItemsPerClient(client);
+    }
+
+    @Override
+    public Item showOneItem(ShoppingCart client, Product product) {
+        return this.itemRepository.showOneItem(client, product);
     }
 
     @Override
@@ -38,9 +45,11 @@ public class ItemImp implements ItemService {
     }
 
     @Override
-    public void delete(Long id) {
-        this.itemRepository.deleteById(id);
+    public void deleteItemFromBudget(ShoppingCart client, Product product) {
+        this.itemRepository.deleteItemFromBudget(client, product);
     }
+
+
 
 /*    @Override
     public void updateShoppingCart(Long id, Integer quantity) {

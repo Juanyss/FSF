@@ -9,39 +9,56 @@
 </head>
 <body>
 
-<div class="table100 ver1 m-b-110">
-    <div class="table100-head">
+
+<table class='table-Budget'>
+    <td><h2><label class='infoDate' id="infoDate"></label></h2><br></td>
+    <tr>
+        <th class='infoContainer'>
+            <label class='infoTittle'>Ferreteria Sagrada Familia</label><br>
+            <label>Direccion: Ibera 1600 (entre Gutemberg y Sarmiento)</label><br>
+            <label>Corrientes - CP 3400 - Telefono: 379-4440102 - Celular: 379-4699048 </label><br>
+        </th>
+        <th class='infoContainer1'>
+            <label>CUIT: 20-24026215-1</label><br>
+            <label>DGR:  20-24026215-1</label><br>
+            <label>Inicio de actividades: 01/11/2017</label>
+        </th>
+    </tr>
+</table>
+
+<div id="clientId"></div>
+
+    <div class='table100 ver1 m-b-110'>
+    <div class='table100-head'>
         <table>
             <thead>
-            <tr class="row100 head">
-                <th class="column1">Producto</th>
-                <th class="column2">Cantidad</th>
-                <th class="column2">Precio</th>
+            <tr class='row100 head'>
+                <th class='column1'>Producto</th>
+                <th class='column2'>Cantidad</th>
+                <th class='column2'>Precio</th>
             </tr>
             </thead>
         </table>
     </div>
     <br>
-    <div class="table100-body js-pscroll" id="productList">
-        <table class="table-Budget">
-            <thead>
-            <tr class="row100 head">
-                <th class="column1-Budget">Ejemplo producto</th>
-                <th class="column2">10</th>
-                <th class="column2">$ 600</th>
-            </tr>
-            <tr class="row100 head-Budget">
-                <th class="column1-Budget">Ejemplo producto 2</th>
-                <th class="column2">5</th>
-                <th class="column2">$ 50</th>
-            </tr>
-            </thead>
-        </table>
-
     </div>
 
-    
-</div>
 
+
+<div id="budgetPrint"></div>
+<div id="totalBudget"></div>
+<br>
+<br>
+
+
+<table class='table-Budget'>
+    <td>
+        <h2><label class='infoDate' ><button id="printPageButton" onClick="window.print();">Imprimir</button></label></h2><br>
+        <h2><label class='infoDate' ><button id="goBack" onClick="window.location.href=('/newBudget');">Volver</button></label></h2><br>
+    </td>
+
+</table>
+
+<script src="JS/budgetPrint.js"></script>
 </body>
 </html>

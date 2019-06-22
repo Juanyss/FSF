@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo Presupuesto</title>
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <link rel="stylesheet" href="CSS/newBudget.css" />
+    <script	src="/JS/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+
+<div id="cssmenu">
+    <ul>
+        <li><a href="/"><span>Inicio</span></a></li>
+        <li ><a href="/products"><span>Productos</span></a></li>
+        <li><a href="/distributors"><span>Distribuidores</span></a></li>
+        <li class="active"><a href="/newBudget"><span>Nuevo Presupuesto</span></a></li>
+    </ul>
+</div>
+
+<br>
+<br>
+
+<input class="wrap-table100" placeholder="Cliente" id='client'/>
+
+<div class="limiter"><div class="container-table100">
+    <button class="budgetButton" id="buildBudget"> Generar Presupuesto </button>
+</div></div>
+
+<div class="limiter">
+    <div class="container-table100">
+        <input class="wrap-table100" placeholder="Buscar Producto ..." id='productSearch'/>
+        <div class="wrap-table100">
+            <div class="table100 ver1 m-b-110">
+                <div class="table100-head">
+                    <table>
+                        <thead>
+                        <tr class="row100 head">
+                            <th class="column1">Nombre</th>
+                            <th class="column2">Marca</th>
+                            <th class="column4">Stock</th>
+                            <th class="column5">Precio</th>
+                            <th class="column6">Agregar</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                <div class="table100-body js-pscroll" id="productList">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="titlePreview">
+    <h3>Vista Previa</h3>
+</div>
+
+
+<div class="limiter">
+    <div class="container-table100">
+        <div class="wrap-table100">
+            <div class="table100 ver1 m-b-110">
+                <div class="table100-head">
+                    <table>
+                        <thead>
+                        <tr class="row100 head">
+                            <th class="column1PreBudget">Nombre</th>
+                            <th class="column6PreBudget">Cantidad</th>
+                            <th class="column5PreBudget">Precio</th>
+                            <th class="column6">Acciones</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+
+                <div class="table100-body js-pscroll" id="budgetList"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="quantityForm"></div>
+
+<script src="JS/newBudget.js"></script>
+</body>
+</html>

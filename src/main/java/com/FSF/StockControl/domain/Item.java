@@ -8,13 +8,13 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "Item")
-public class Item {
+public class Item  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idItem;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idShoppingCart")
+    @JoinColumn(name = "client")
     private ShoppingCart shoppingCart;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -29,7 +29,8 @@ public class Item {
         this.quantity = quantity;
     }
 
-    public Item(Product product, Integer quantity) {
+    public Item(ShoppingCart shoppingCart,Product product, Integer quantity) {
+        this.shoppingCart = shoppingCart;
         this.product = product;
         this.quantity = quantity;
     }
@@ -42,7 +43,7 @@ public class Item {
         this.idItem = idShoppingCart;
     }
 
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="idShoppingCart")
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="client")
     @JsonIdentityReference(alwaysAsId = true)
     public ShoppingCart getShoppingCart() {
         return shoppingCart;
@@ -57,6 +58,7 @@ public class Item {
     public Product getProduct() {
         return product;
     }
+
 
     public void setProduct(Product product) {
         this.product = product;

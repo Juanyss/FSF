@@ -430,7 +430,6 @@ $("#productSearch").on('keypress', function(e){
                 contentType: "application/json; charset=utf-8",
                 method: "POST",
                 success: function (result) {
-                $("#distributorList").empty();
                 for (x = 0; x < result.length; x++) {
                 $("#productList").empty();
                 for (x = 0; x < result.length; x++) {

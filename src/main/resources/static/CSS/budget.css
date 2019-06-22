@@ -32,6 +32,27 @@ th, td {
     padding-right: 10px;
 }
 
+.infoContainer{
+    text-align: left;
+    font-size: 13px;
+}
+
+.infoContainer1{
+    text-align: right;
+    font-size: 13px;
+}
+
+.infoDate{
+    max-width: 100%;
+    text-align: right;
+    float: right;
+}
+
+.infoTittle{
+    font-size: 20px;
+}
+
+
 .column1 {
     width: 70%;
     padding-left: 40px;
@@ -40,6 +61,16 @@ th, td {
 
 .column1-Budget{
     text-align: left;
+}
+
+.column-Total{
+    width: 85%;
+    text-align: left;
+}
+
+.column-TotalAmount{
+    width: 15%;
+    text-align: center;
 }
 
 .column2 {
@@ -109,27 +140,26 @@ th, td {
 .table100.ver1 td {
     font-family: Lato-Regular;
     font-size: 15px;
-    color: #808080;
     line-height: 1.4;
 }
-
-.table100.ver1 .table100-body tr:nth-child(even) {
-    background-color: #f8f6ff;
-}
-
 
 
 .table100.ver1 {
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
-    -moz-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
-    -webkit-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
-    -o-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
-    -ms-box-shadow: 0 0px 40px 0px rgba(0, 0, 0, 0.15);
 }
 
 .table100.ver1 .ps__rail-y {
     right: 5px;
+}
+
+@media print {
+    #printPageButton {
+        display: none;
+    }
+
+    #goBack {
+        display: none;
+    }
 }
 
